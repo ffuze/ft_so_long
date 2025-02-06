@@ -1,4 +1,5 @@
 #include "./minilibx-linux/mlx.h"
+#include "./Libft/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <X11/X.h>
