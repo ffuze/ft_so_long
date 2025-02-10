@@ -2,18 +2,11 @@
 #include "./Libft/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <fcntl.h>
 #include <X11/X.h>
 #include <X11/keysym.h>
 
 # define TILE_SIZE 300
-
-// manages minilibx initialization and the window
-typedef struct s_window
-{
-	void		*mlx_ptr; // MLX pointer
-	void		*win_ptr; // MLX window pointer
-	t_textures		*img_ptr; // Image pointer
-}	t_window;
 
 // manages and holds all the images used for the textures
 typedef struct s_textures {
@@ -24,6 +17,14 @@ typedef struct s_textures {
     void	*player;
 	void	*enemy;
 } t_textures;
+
+// manages minilibx initialization and the window
+typedef struct s_window
+{
+	void		*mlx_ptr; // MLX pointer
+	void		*win_ptr; // MLX window pointer
+	t_textures		*img_ptr; // Image pointer
+}	t_window;
 
 // all the info about the map, such as its width, height and the player position
 typedef struct s_map {
