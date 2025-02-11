@@ -31,8 +31,10 @@ typedef struct s_map {
     char	**grid;
     int		width;
     int		height;
-    int		x;
-    int		y;
+    int		player_x;
+    int		player_y;
+	int		score;
+	int		total_score;
 }	t_map;
 
 // a strucutre that connects all previous ones
@@ -40,20 +42,9 @@ typedef struct s_game {
     t_window	window;
     t_map		map;
     t_textures	textures;
+	int moves;
 }	t_game;
 
-int on_destroy(t_window *window)
-{
-	mlx_destroy_window(window->mlx_ptr, window->win_ptr);
-	mlx_destroy_display(window->mlx_ptr);
-	free(window->mlx_ptr);
-	exit(0);
-	return (0);
-}
-
-int on_keypress(int keysym, t_window *window)
-{
-	(void)window;
-	printf("Pressed key: %d\\n", keysym);
-	return (0);
-}
+void	ft_free_grid(char **grid);
+void	free_textures(t_game *game);
+void	free_everything(t_game *game);
