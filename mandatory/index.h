@@ -33,16 +33,22 @@ typedef struct s_map {
     int		height;
     int		player_x;
     int		player_y;
+}	t_map;
+
+// structure that keeps track of 'backend' operations
+typedef struct s_calcs {
 	int		score;
 	int		total_score;
-}	t_map;
+	int 	moves;
+	int 	keys[256];
+}	t_calcs;
 
 // a strucutre that connects all previous ones
 typedef struct s_game {
     t_window	window;
     t_map		map;
     t_textures	textures;
-	int moves;
+	t_calcs		calcs;
 }	t_game;
 
 void	ft_free_grid(char **grid);
