@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:48:49 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/02/11 19:35:51 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/02/17 18:01:24 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_free_grid(char **grid)
 		free(grid[i]);
 		i++;
 	}
-	free (grid);
+	free(grid);
 }
 
 void	free_textures(t_game *game)
@@ -35,10 +35,12 @@ void	free_textures(t_game *game)
 	mlx_destroy_image(game->window.mlx_ptr, game->textures.wall);
 }
 
-void	free_everything(t_game *game)
+void	free_all(t_game *game)
 {
 	ft_free_grid(game->map.grid);
+	// ft_printf("sono davanti al free_grid()");
 	free_textures(game);
+	// ft_printf("sono davanti al free_textures()");
 	if (game->window.win_ptr)
 		mlx_destroy_window(game->window.mlx_ptr, game->window.win_ptr);
 	if (game->window.mlx_ptr)
@@ -46,6 +48,47 @@ void	free_everything(t_game *game)
 		mlx_destroy_display(game->window.mlx_ptr);
 		free(game->window.mlx_ptr);
 	}
+}
+
+void	print_map(t_game *game)
+{
+	int i = 0;
+	int j = 0;
+
+	ft_printf("\n");
+	while (i < game->map.height)
+	{
+		j = 0;
+		while (j < game->map.width)
+		{
+			ft_printf("%c", game->map.grid[i][j]);
+			j++;
+		}
+		ft_printf("\n");
+		i++;
+	}
+}
+
+int	get_total_score(t_game *game)
+{
+	int i;
+	int j;
+	int coll;
+
+	i = 0;
+	coll = 0;
+	while (i < game->map.height)
+	{
+		j = 0;
+		while (j < game->map.width)
+		{
+			if (game->map.grid[i][j] == 'C')
+				coll++;
+			j++;
+		}
+		i++;
+	}
+	return (coll);
 }
 
 // function that assigns the textures to the respective structure variables
@@ -77,17 +120,18 @@ void	load_map(t_game *game, const char *filename)
 		return ;
 	}
 
+	game->calcs.moves = 0;
+	game->calcs.score = 0;
 	game->map.height = 0;
 	game->map.width = 0;
-	game->map.player_x = 0;
-	game->map.player_y = 0;
+	game->map.player_x = 1;
+	game->map.player_y = 1;
 
 	// count the width (length of each line) and height (number of rows) of the map 
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		if (game->map.width == 0)
 			game->map.width = ft_strlen(line) - 1; // width == number of characters minus the newline and the end of the line
-		
 		game->map.height++;
 		free(line);
 	}
@@ -102,7 +146,7 @@ void	load_map(t_game *game, const char *filename)
 	}
 
 	// reopen and therefore use again the file to store the content of each line in the grid
-	fd = open(filename, fd);
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
 		perror("An issue has occurred while opening the file after storing grid size in memory");
@@ -112,10 +156,11 @@ void	load_map(t_game *game, const char *filename)
 	while ((line = get_next_line(fd)) != NULL && i < game->map.width)
 	{
 		game->map.grid[i] = line;
-		printf("%s", game->map.grid[i]);
 		i++;
 	}
-	// game.map.grid[i] = NULL;
+	game->calcs.total_score = get_total_score(game);
+	print_map(game);
+	// ft_printf("coordinata Y load_map(): %d\n", game->map.player_y);
 }
 
 // function that converts the textures into mlx objects
@@ -162,72 +207,80 @@ void	draw_map(t_game *game)
 
 int on_destroy(t_game *game)
 {
-	free_everything(game);
+	free_all(game);
 	exit(0);
 	return (0);
 }
 
-int player_is_next_to_wall(t_game *game)
-{
-    int y = game->map.player_y;
-    int x = game->map.player_x;
+// int player_is_next_to_wall(t_game *game)
+// {
+//     int y = game->map.player_y;
+//     int x = game->map.player_x;
 
-    if (y > 0 && game->map.grid[y - 1][x] == '1') // above
-        return (1);
-    if (y < game->map.height - 1 && game->map.grid[y + 1][x] == '1') // below
-        return (1);
-    if (x > 0 && game->map.grid[y][x - 1] == '1') // left
-        return (1);
-    if (x < game->map.width - 1 && game->map.grid[y][x + 1] == '1') // right
-        return (1);
-    return (0);
-}
+// 	if ((y > 0 && game->map.grid[y - 1][x] == '1') // above
+// 		|| (y < game->map.height - 1 && game->map.grid[y + 1][x] == '1') // below
+// 		|| (x > 0 && game->map.grid[y][x - 1] == '1') // left
+// 		|| (x < game->map.width - 1 && game->map.grid[y][x + 1] == '1')) // right
+// 		return (0);
+//     return (0);
+// }
 
-int player_is_in_angle(t_game *game)
-{
-    int y = game->map.player_y;
-    int x = game->map.player_x;
+// int player_is_in_angle(t_game *game)
+// {
+//     int y = game->map.player_y;
+//     int x = game->map.player_x;
 
-    if ((y == 0 && x == 0) // top-left corner
-		|| (y == 0 && x == game->map.width - 1) // top-right corner
-		|| (y == game->map.height - 1 && x == 0) // bottom-left corner
-		|| (y == game->map.height - 1 && x == game->map.width - 1)) // bottom-right corner
-        return (1);
-    return (0);
-}	
+// 	if ((y == 0 && x == 0) // top-left corner
+// 		|| (y == 0 && x == game->map.width - 1) // top-right corner
+// 		|| (y == game->map.height - 1 && x == 0) // bottom-left corner
+// 		|| (y == game->map.height - 1 && x == game->map.width - 1)) // bottom-right corner
+// 		return (0);
+// 	draw_map(game);
+// 	return (1);
+// }	
 
 int move_player(t_game *game, int new_x, int new_y)
 {
     if (new_y < 0 || new_y >= game->map.height || new_x < 0 || new_x >= game->map.width)
     {
-        ft_printf("Invalid position\n");
+        ft_printf("Posizione invalida\n");
         return (0);
-    }
-    if (player_is_in_angle(game) || player_is_next_to_wall(game))
-    {
-        ft_printf("Li no, c'e' un muro...\n");
-        return (0);
-    }
+	}
     if (game->map.grid[new_y][new_x] == '1')
-        return (0);
-    if (game->map.grid[new_y][new_x] == 'C')
-        game->map.score++;
+	{
+		ft_printf("Non posso andare dentro un muro...\n");
+		return (0);
+	}
+	if (game->map.grid[new_y][new_x] == 'C')
+	{
+		game->calcs.score++;
+		game->map.grid[new_y][new_x] = '0';
+		ft_printf("Score: %d\n", game->calcs.score);
+	}
+	if (game->map.grid[new_y][new_x] == 'N')
+	{
+		ft_printf("Il cavaliere, nonostante la sua armatura, e' riuscito a morire da uno scheletro\n");
+		on_destroy(game);
+	}
     if (game->map.grid[new_y][new_x] == 'E')
     {
-        if (game->map.score == game->map.total_score)
+        if (game->calcs.score == game->calcs.total_score)
         {
             ft_printf("Hai vinto!\n");
             on_destroy(game);
         }
         return (0);
     }
-    game->moves++;
-    ft_printf("Mosse: %d\n", game->moves);
-    game->map.grid[game->map.player_y][game->map.player_x] = '0';
+	game->map.grid[game->map.player_y][game->map.player_x] = '0';
     game->map.player_y = new_y;
     game->map.player_x = new_x;
     game->map.grid[new_y][new_x] = 'P';
-
+	game->calcs.moves++;
+    ft_printf("Mosse: %d\n", game->calcs.moves);
+	ft_printf("Score TOTALE: %d\n", game->calcs.total_score);
+	ft_printf("coordinata X move_player(): %d\n", game->map.player_x);
+	ft_printf("coordinata Y move_player(): %d\n", game->map.player_y);
+	draw_map(game);
     return (1);
 }
 
@@ -266,21 +319,25 @@ int on_keypress(int keysym, t_game *game)
         exit(0);
 	else if (keysym == XK_w)
 	{
+		print_map(game);
 		move_player(game, game->map.player_x, game->map.player_y - 1);
 		ft_printf("(w)\n");
 	}
 	else if (keysym == XK_a)
 	{
+		print_map(game);
 		move_player(game, game->map.player_x - 1, game->map.player_y);
 		ft_printf("(a)\n");
 	}
 	else if (keysym == XK_s)
 	{
+		print_map(game);
 		move_player(game, game->map.player_x, game->map.player_y + 1);
 		ft_printf("(s)\n");
 	}
 	else if (keysym == XK_d)
 	{
+		print_map(game);
 		move_player(game, game->map.player_x + 1, game->map.player_y);
 		ft_printf("(d)\n");
 	}
@@ -309,7 +366,7 @@ int main(int argc, char **argv)
 		return (0);
 	}
 	draw_map(&game);
-    mlx_hook(game.window.win_ptr, KeyRelease, KeyReleaseMask, &on_keypress, &game);
+    mlx_hook(game.window.win_ptr, 2, 1L << 0, &on_keypress, &game);
     mlx_hook(game.window.win_ptr, DestroyNotify, StructureNotifyMask, &on_destroy, &game);
     mlx_loop(game.window.mlx_ptr);
 
