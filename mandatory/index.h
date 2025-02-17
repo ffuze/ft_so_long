@@ -40,7 +40,6 @@ typedef struct s_calcs {
 	int		score;
 	int		total_score;
 	int 	moves;
-	int 	keys[256];
 }	t_calcs;
 
 // a strucutre that connects all previous ones
