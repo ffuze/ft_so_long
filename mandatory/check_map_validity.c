@@ -6,30 +6,82 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:51:18 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/02/11 10:58:57 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:49:57 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "index.h"
 
-int	check_map_validity(t_game *game)
+// flood fill to check map validity
+void flood_fill(char **grid, int x, int y, int height, int width, char target, char replace)
 {
-	int i;
-	int j;
+    // check bounds and stop if out of bounds or not the target character
+    if (x < 0 || x >= width || y < 0 || y >= height || grid[y][x] != target)
+        return;
 
-	i = 0;
-	while (i < game->map.height)
+    // replace current position with a visited marker
+    grid[y][x] = replace;
+
+    flood_fill(grid, x + 1, y, height, width, target, replace); // right
+    flood_fill(grid, x - 1, y, height, width, target, replace); // left
+    flood_fill(grid, x, y + 1, height, width, target, replace); // down
+    flood_fill(grid, x, y - 1, height, width, target, replace); // up
+}
+
+int is_map_valid(char **grid, int height, int width)
+{
+    int player_x = 0, player_y = 0;
+    int exit_x = 0, exit_y = 0;
+    int i = 0, j = 0;
+	
+    while (i < height)
 	{
-		j = 0;
-		while (j < game->map.width)
+        j = 0;
+        while (j < width)
 		{
-			if (game->map.grid[i][j] != '0' && game->map.grid[i][j] != '1' && game->map.grid[i][j] != 'C' && game->map.grid[i][j] != 'E' && game->map.grid[i][j] != 'P')
-				return (0);
-			j++;
-		}
-		i++;
-	}
-	return (1);
+            if (grid[i][j] == 'P')
+			{
+                player_x = j;
+                player_y = i;
+            }
+            if (grid[i][j] == 'E')
+			{
+                exit_x = j;
+                exit_y = i;
+            }
+            j++;
+        }
+        i++;
+    }
+
+    // start flood fill starting from the player
+    flood_fill(grid, player_x, player_y, height, width, '0', 'G');  // 'G' marks reachable areas
+
+    // check if the exit and all collectibles are reachable
+    if (grid[exit_y][exit_x] != 'G')
+	{
+        printf("Exit is unreachable\n");
+        return 0;
+    }
+
+    // check if all collectibles are reachable
+    i = 0;
+    while (i < height)
+	{
+        j = 0;
+        while (j < width)
+		{
+            if (grid[i][j] == 'C' && grid[i][j] != 'G')
+			{
+                printf("Collectible at (%d, %d) is unreachable\n", j, i);
+                return 0;
+            }
+            j++;
+        }
+        i++;
+    }
+
+    return 1;
 }
 
 int	check_wall(t_game *game)
