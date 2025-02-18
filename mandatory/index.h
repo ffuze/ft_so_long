@@ -50,6 +50,15 @@ typedef struct s_game {
 	t_calcs		calcs;
 }	t_game;
 
-void	ft_free_grid(char **grid);
+void	free_grid(char **grid);
 void	free_textures(t_game *game);
-void	free_everything(t_game *game);
+void	free_all(t_game *game);
+int		is_map_valid(char **grid, int height, int width);
+int		on_keypress(int keysym, t_game *game);
+int		move_player(t_game *game, int new_x, int new_y);
+int		on_destroy(t_game *game);
+void	draw_map(t_game *game);
+void	load_map(t_game *game, const char *filename);
+void	load_textures(t_game *game);
+int		get_total_score(t_game *game);
+void	print_map(t_game *game);
