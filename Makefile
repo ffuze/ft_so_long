@@ -1,8 +1,29 @@
-INCLUDES = -I/opt/X11/include -Imlx
-MLX_FLAGS = -Lmlx -lmlx -L/usr/X11/lib -lXext -lX11 -framework OpenGL -framework AppKit
+NAME = so_long
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -g
+MLX_DIR = ./minilibx-linux
+MLX = $(MLX_DIR)/libmlx.a
+SRC = index.c check_map_validity.c free_functions.c
+OBJ = $(SRC:.c=.o)
+INCLUDES = -I$(MLX_DIR)
+LIBS = -L$(MLX_DIR) -lmlx -lXext -lX11
 
-.c.o:
-	$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
+all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(MLX_FLAGS)
+$(NAME): $(OBJ)
+	$(MAKE) -C $(MLX_DIR)
+	$(CC) $(CFLAGS) $(OBJ) $(MLX) $(LIBS) -o $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+clean:
+	$(MAKE) -C $(MLX_DIR) clean
+	rm -f $(OBJ)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
