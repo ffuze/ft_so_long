@@ -6,13 +6,13 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:44:03 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/02/11 16:20:50 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:50:38 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "index.h"
 
-void	ft_free_grid(char **grid)
+void	free_grid(char **grid)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ void	ft_free_grid(char **grid)
 		free(grid[i]);
 		i++;
 	}
-	free (grid);
+	free(grid);
 }
 
 void	free_textures(t_game *game)
@@ -35,9 +35,9 @@ void	free_textures(t_game *game)
 	mlx_destroy_image(game->window.mlx_ptr, game->textures.wall);
 }
 
-void	free_everything(t_game *game)
+void	free_all(t_game *game)
 {
-	ft_free_maps(game->map);
+	free_grid(game->map.grid);
 	free_textures(game);
 	if (game->window.win_ptr)
 		mlx_destroy_window(game->window.mlx_ptr, game->window.win_ptr);
