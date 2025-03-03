@@ -6,13 +6,12 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:51:18 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/02/28 19:23:00 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/03 14:41:02 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-// util
 static int	ft_strlen_no_newline(char *str)
 {
 	int len = 0;

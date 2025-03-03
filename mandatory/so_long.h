@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/03 15:03:59 by adegl-in          #+#    #+#             */
+/*   Updated: 2025/03/03 15:06:44 by adegl-in         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minilibx-linux/mlx.h"
 #include "../Libft/libft.h"
 #include <stdlib.h>
@@ -58,3 +70,5 @@ void	draw_map(t_game *game);
 void	load_map(t_game *game, const char *filename);
 void	load_textures(t_game *game);
 void	print_map(t_game *game);
+void	draw_tile(t_game *game, int i, int j);
+char	**copy_map(char **map, int height);
