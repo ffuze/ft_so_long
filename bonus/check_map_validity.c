@@ -6,11 +6,13 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:51:18 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/02/28 19:23:00 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:45:11 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "index.h"
+
+// flood fill to check map validity
 
 // util
 static int	ft_strlen_no_newline(char *str)
@@ -76,12 +78,12 @@ void	find_player(t_game *game)
 	}
 }
 
-int	validate_elements(int p, int c, int e)
+int	validate_elements(int p, int c, int e, int n)
 {
-	return (p == 1 && e == 1 && c >= 1);
+	return (p == 1 && e == 1 && c >= 1 && n >= 1);
 }
 
-int	count_characters(char *str, int *p, int *c, int *e)
+int	count_characters(char *str, int *p, int *c, int *e, int *n)
 {
 	int	i;
 
@@ -99,8 +101,11 @@ int	count_characters(char *str, int *p, int *c, int *e)
 			(*c)++;
 		else if (str[i] == 'E')
 			(*e)++;
+		else if (str[i] == 'N')
+			(*n)++;
 		if (str[i] != 'C' && str[i] != 'P' && str[i] != 'E'
-			&& str[i] != '1' && str[i] != '0' && str[i] != '\n')
+			&& str[i] != 'N' && str[i] != '1' && str[i] != '0'
+			&& str[i] != '\n')
 			return (0);
 		i++;
 	}
@@ -109,7 +114,8 @@ int	count_characters(char *str, int *p, int *c, int *e)
 
 void	flood_fill(char **map, int x, int y, int height, int width, int *reachable_c, int *reachable_e)
 {
-	if (x < 0 || x >= width || y < 0 || y >= height || map[y][x] == '1' || map[y][x] == 'F')
+	if (x < 0 || x >= width || y < 0 || y >= height
+		|| map[y][x] == '1' || map[y][x] == 'F')
 		return ;
 	if (map[y][x] == 'C')
 		(*reachable_c)++;
@@ -129,6 +135,7 @@ int	is_map_valid(t_game *game, char **map, int height, int width)
 	int p;
 	int c;
 	int e;
+	int n;
 	int i;
 	char **map_copy;
 	int reachable_c = 0, reachable_e = 0;
@@ -136,14 +143,15 @@ int	is_map_valid(t_game *game, char **map, int height, int width)
 	p = 0;
 	c = 0;
 	e = 0;
+	n = 0;
 	i = -1;
 	while (++i < height)
 	{
-		if (!count_characters(map[i], &p, &c, &e))
+		if (!count_characters(map[i], &p, &c, &e, &n))
+			return (0);
+		if (!check_walls(map, height, width) && !validate_elements(p, c, e, n))
 			return (0);
 	}
-	if (!check_walls(map, height, width) || !validate_elements(p, c, e))
-		return (0);
 	map_copy = malloc(height * sizeof(char *));
 	if (!map_copy)
 		return (0);
