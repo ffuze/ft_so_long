@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:48:49 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/02/28 19:12:32 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/03 12:33:27 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ void	load_textures(t_game *game)
 {
 	int width;
 	int	height;
-
-	game->textures.floor = mlx_xpm_file_to_image(game->window.mlx_ptr, "./textures/floor.xpm", &width, &height);
-	game->textures.wall = mlx_xpm_file_to_image(game->window.mlx_ptr, "./textures/wall.xpm", &width, &height);
-	game->textures.collectible = mlx_xpm_file_to_image(game->window.mlx_ptr, "./textures/chest.xpm", &width, &height);
-	game->textures.exit = mlx_xpm_file_to_image(game->window.mlx_ptr, "./textures/ladder.xpm", &width, &height);
-	game->textures.player = mlx_xpm_file_to_image(game->window.mlx_ptr, "./textures/knight.xpm", &width, &height);
+	
+	game->textures.floor = mlx_xpm_file_to_image(game->window.mlx_ptr, "./mandatory/textures/floor.xpm", &width, &height);
+	game->textures.wall = mlx_xpm_file_to_image(game->window.mlx_ptr, "./mandatory/textures/wall.xpm", &width, &height);
+	game->textures.collectible = mlx_xpm_file_to_image(game->window.mlx_ptr, "./mandatory/textures/chest.xpm", &width, &height);
+	game->textures.exit = mlx_xpm_file_to_image(game->window.mlx_ptr, "./mandatory/textures/ladder.xpm", &width, &height);
+	game->textures.player = mlx_xpm_file_to_image(game->window.mlx_ptr, "./mandatory/textures/knight.xpm", &width, &height);
 }
 
 void	check_fd_validity(int fd)
@@ -213,7 +213,7 @@ int main(int argc, char **argv)
 	}
 	load_textures(&game);
 	game.window.win_ptr = mlx_new_window(game.window.mlx_ptr, 32*game.map.width, 32*game.map.height, "so_long");
-    if (!game.window.win_ptr)
+	if (!game.window.win_ptr)
 	{
 		free(game.window.win_ptr);
 		return (0);
