@@ -6,7 +6,9 @@ MLX_DIR = ./minilibx-linux
 MLX = $(MLX_DIR)/libmlx.a
 SRCPATH = mandatory/
 BSRCPATH = bonus/
-SRC = $(SRCPATH)so_long.c $(SRCPATH)free_functions.c $(SRCPATH)check_map_validity.c
+SRC = $(SRCPATH)so_long.c $(SRCPATH)free_resources.c $(SRCPATH)check_map_validity.c \
+		$(SRCPATH)textures.c $(SRCPATH)map_loader.c $(SRCPATH)map_renderer.c $(SRCPATH)map_validity_utils.c \
+		$(SRCPATH)flood_fill.c 
 BSRC = $(BSRCPATH)so_long.c $(BSRCPATH)free_resources.c $(BSRCPATH)check_map_validity.c
 OBJ = $(SRC:.c=.o)
 BOBJ = $(BSRC:.c=.o)
