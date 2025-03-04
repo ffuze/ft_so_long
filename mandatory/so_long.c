@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:48:49 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/03 15:04:29 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:32:11 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int main(int argc, char **argv)
 {
 	t_game game;
 	
+	// ft_bzero(&game, sizeof(t_game));
 	if (argc != 2)
 		return (0);
     game.window.mlx_ptr = mlx_init();
@@ -51,19 +52,18 @@ int main(int argc, char **argv)
 	load_map(&game, argv[1]);
 	if (!is_map_valid(&game, game.map.grid, game.map.height, game.map.width))
 	{
-		ft_printf("La mappa che hai scelto non e' valida\n");
-		return (1);
+		ft_printf("Mappa non valida\n");
+		free_invalid(&game);
+		return (0);
 	}
 	load_textures(&game);
 	game.window.win_ptr = mlx_new_window(game.window.mlx_ptr, 32*game.map.width, 32*game.map.height, "so_long");
-	if (!game.window.win_ptr)
-	{
-		free(game.window.win_ptr);
+    if (!game.window.win_ptr)
 		return (0);
-	}
 	draw_map(&game);
 	mlx_hook(game.window.win_ptr, 2, 1L << 0, &on_keypress, &game);
 	mlx_hook(game.window.win_ptr, DestroyNotify, StructureNotifyMask, &on_destroy, &game);
 	mlx_loop(game.window.mlx_ptr);
+	free_all(&game);
     return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:53:09 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/03 15:51:33 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:23:16 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,32 +68,38 @@ void	print_map(t_game *game)
 	}
 }
 
-int move_player(t_game *game, int new_x, int new_y)
+static void	update_player_position(t_game *game, int new_x, int new_y)
 {
-    if (new_y < 0 || new_y >= game->map.height || new_x < 0 || new_x >= game->map.width)
-        return (0);
-    if (game->map.grid[new_y][new_x] == '1')
+	game->map.grid[game->map.player_y][game->map.player_x] = '0';
+	game->map.player_y = new_y;
+	game->map.player_x = new_x;
+	game->map.grid[new_y][new_x] = 'P';
+	game->calcs.moves++;
+	ft_printf("Mosse: %d\n", game->calcs.moves);
+	draw_map(game);
+}
+
+int	move_player(t_game *game, int new_x, int new_y)
+{
+	if (new_y < 0 || new_y >= game->map.height
+		|| new_x < 0 || new_x >= game->map.width)
+		return (0);
+	if (game->map.grid[new_y][new_x] == '1')
 		return (0);
 	if (game->map.grid[new_y][new_x] == 'C')
 	{
 		game->calcs.score++;
 		game->map.grid[new_y][new_x] = '0';
 	}
-    if (game->map.grid[new_y][new_x] == 'E')
-    {
-        if (game->calcs.score == game->calcs.total_score)
-        {
-            ft_printf("Hai vinto!\n");
-            on_destroy(game);
-        }
-        return (0);
-    }
-	game->map.grid[game->map.player_y][game->map.player_x] = '0';
-    game->map.player_y = new_y;
-    game->map.player_x = new_x;
-    game->map.grid[new_y][new_x] = 'P';
-	game->calcs.moves++;
-	ft_printf("Mosse: %d\n", game->calcs.moves);
-	draw_map(game);
-    return (1);
+	if (game->map.grid[new_y][new_x] == 'E')
+	{
+		if (game->calcs.score == game->calcs.total_score)
+		{
+			ft_printf("Hai vinto!\n");
+			on_destroy(game);
+		}
+		return (0);
+	}
+	update_player_position(game, new_x, new_y);
+	return (1);
 }

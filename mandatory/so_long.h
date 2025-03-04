@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 15:03:59 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/03 15:06:44 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/04 19:07:06 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,24 @@ typedef struct s_game {
 	t_calcs		calcs;
 }	t_game;
 
+// structure that stores all the flood fill algorithm values
+typedef struct s_flood_fill_params
+{
+	char **map;
+	int height;
+	int width;
+	int *reachable_c;
+	int *reachable_e;
+	int c;
+}	t_flood_fill_params;
+
+typedef struct s_map_elements
+{
+	int	p;
+	int	c;
+	int	e;
+}	t_map_elements;
+
 void	free_grid(char **grid, int height);
 void	free_textures(t_game *game);
 void	free_all(t_game *game);
@@ -72,3 +90,10 @@ void	load_textures(t_game *game);
 void	print_map(t_game *game);
 void	draw_tile(t_game *game, int i, int j);
 char	**copy_map(char **map, int height);
+void	free_invalid(t_game *game);
+int		is_symmetric(char **map, int height);
+static void	flood_fill(char **map, int x, int y, int height, int width,
+	int *reachable_c, int *reachable_e);
+int		count_characters(char *str, int *p, int *c, int *e);
+int		count_elements(char **map, int height, t_map_elements *elements);
+void	find_player(t_game *game);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/03 16:07:14 by adegl-in          #+#    #+#             */
+/*   Updated: 2025/03/04 13:17:19 by adegl-in         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minilibx-linux/mlx.h"
 #include "../Libft/libft.h"
 #include <stdlib.h>
@@ -54,24 +66,18 @@ typedef struct s_game {
 	t_calcs		calcs;
 }	t_game;
 
-void	free_grid(char **grid, int height);
-void	free_textures(t_game *game);
-void	free_all(t_game *game);
-int		is_map_valid(t_game *game, char **grid, int height, int width);
-int		on_keypress(int keysym, t_game *game);
-int		move_player(t_game *game, int new_x, int new_y);
 int		on_destroy(t_game *game);
+void	free_grid(char **grid, int height);
+void	free_all(t_game *game);
+int		move_player(t_game *game, int new_x, int new_y);
 void	draw_map(t_game *game);
 void	load_map(t_game *game, const char *filename);
 void	load_textures(t_game *game);
-void	print_map(t_game *game);
-int	update_and_animate(t_game *game);
+int		update_and_animate(t_game *game);
 void	display_score(t_game *game);
-int	print_sprites(t_game *game);
-int	is_map_valid(t_game *game, char **map, int height, int width);
-int	ft_strlen_no_newline(char *str);
-void	count_map_elements(char **map, int height, int *p, int *c, int *e, int *n);
-int	check_walls(char **map, int height, int width);
-int	validate_elements(int p, int c, int e, int n);
-void	find_player(t_game *game);
+int		is_map_valid(t_game *game, char **map, int height, int width);
 void	flood_fill(char **map, int x, int y, int h, int w, int *rc, int *re);
+int		is_symmetric(char **map, int height);
+char	**copy_map(char **map, int height);
+int		count_characters(char *str, int *p, int *c, int *e, int *n);
+void	free_invalid(t_game *game);

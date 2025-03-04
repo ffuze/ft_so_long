@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:53:07 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/03 14:53:08 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:36:10 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,16 @@ void	load_map_dimensions(t_game *game, int fd)
 {
 	char	*line;
 
-	while ((line = get_next_line(fd)) != NULL)
+	while (1)
 	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
 		if (game->map.width == 0)
 			game->map.width = ft_strlen(line) - 1;
 		game->map.height++;
 		free(line);
 	}
-	close(fd);
 }
 
 void	load_map(t_game *game, const char *filename)
@@ -62,16 +64,20 @@ void	load_map(t_game *game, const char *filename)
 	char	*line;
 	int		i;
 
+	i = 0;
 	fd = open(filename, O_RDONLY);
 	check_fd_validity(fd);
 	initialize_map_values(game);
 	load_map_dimensions(game, fd);
-	allocate_map_grid(game);
+	close(fd);
 	fd = open(filename, O_RDONLY);
 	check_fd_validity(fd);
-	i = 0;
-	while ((line = get_next_line(fd)) != NULL && i < game->map.height)
+	allocate_map_grid(game);
+	while (i < game->map.height)
 	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
 		game->map.grid[i] = line;
 		i++;
 	}

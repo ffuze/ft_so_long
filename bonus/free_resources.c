@@ -6,11 +6,25 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:44:03 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/02/28 18:14:00 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:37:04 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void	free_invalid(t_game *game)
+{
+	if (game->map.grid)
+		free_grid(game->map.grid, game->map.height);
+	if (game->window.mlx_ptr)
+	{
+		mlx_destroy_display(game->window.mlx_ptr);
+		free(game->window.mlx_ptr);
+	}
+	game->map.grid = NULL;
+	game->window.win_ptr = NULL;
+	game->window.mlx_ptr = NULL;
+}
 
 void	free_grid(char **grid, int height)
 {
@@ -43,9 +57,14 @@ void	free_textures(t_game *game)
 
 void	free_all(t_game *game)
 {
-	free_grid(game->map.grid, game->map.height);
+	if (game->map.grid)
+		free_grid(game->map.grid, game->map.height);
 	free_textures(game);
-	mlx_destroy_window(game->window.mlx_ptr, game->window.win_ptr);
-	mlx_destroy_display(game->window.mlx_ptr);
-	free(game->window.mlx_ptr);
+	if (game->window.win_ptr)
+		mlx_destroy_window(game->window.mlx_ptr, game->window.win_ptr);
+	if (game->window.mlx_ptr)
+	{
+		mlx_destroy_display(game->window.mlx_ptr);
+		free(game->window.mlx_ptr);
+	}
 }
