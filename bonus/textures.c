@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:12:05 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/04 11:39:31 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:01:40 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,3 @@ void	load_textures(t_game *game)
 	check_texture_existence(game);
 	game->textures.sprite_index = 0;
 }
-

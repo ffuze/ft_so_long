@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:51:18 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 16:01:02 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:59:55 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_walls(char **map, int height, int width)
 {
-	int i;
+	int	i;
 
 	if (!is_symmetric(map, height))
 		return (0);
@@ -31,7 +31,9 @@ int	check_walls(char **map, int height, int width)
 
 void	find_player(t_game *game)
 {
-	int y, x;
+	int	y;
+	int	x;
+
 	y = -1;
 	while (++y < game->map.height)
 	{
@@ -56,17 +58,20 @@ int	validate_elements(int p, int c, int e)
 
 int	is_map_valid(t_game *game, char **map, int height, int width)
 {
-	int p;
-	int c;
-	int e;
-	int i;
-	char **map_copy;
-	int reachable_c = 0, reachable_e = 0;
+	int		p;
+	int		c;
+	int		e;
+	int		i;
+	char	**map_copy;
+	int		reachable_c;
+	int		reachable_e;
 
 	p = 0;
 	c = 0;
 	e = 0;
 	i = -1;
+	reachable_c = 0;
+	reachable_e = 0;
 	while (++i < height)
 	{
 		if (!count_characters(map[i], &p, &c, &e))
@@ -82,12 +87,12 @@ int	is_map_valid(t_game *game, char **map, int height, int width)
 	{
 		map_copy[i] = ft_strdup(map[i]);
 		if (!map_copy[i])
-        {
-            while (--i >= 0)
-                free(map_copy[i]);
-            free(map_copy);
-            return (0);
-        }
+		{
+			while (--i >= 0)
+				free(map_copy[i]);
+			free(map_copy);
+			return (0);
+		}
 		i++;
 	}
 	find_player(game);

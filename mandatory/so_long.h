@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 15:03:59 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 16:03:46 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:56:25 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,55 +19,59 @@
 #include <X11/keysym.h>
 
 // manages and holds all the images used for the textures
-typedef struct s_textures {
+typedef struct s_textures
+{
 	void	*floor; // "empty space"
-    void	*wall;
-    void	*collectible;
-    void	*exit;
-    void	*player;
-} t_textures;
+	void	*wall;
+	void	*collectible;
+	void	*exit;
+	void	*player;
+}	t_textures;
 
 // manages minilibx initialization and the window
 typedef struct s_window
 {
 	void		*mlx_ptr; // MLX pointer
 	void		*win_ptr; // MLX window pointer
-	t_textures		*img_ptr; // Image pointer
+	t_textures	*img_ptr; // Image pointer
 }	t_window;
 
 // all the info about the map, such as its width, height and the player position
-typedef struct s_map {
-    char	**grid;
-    int		width;
-    int		height;
-    int		player_x;
-    int		player_y;
+typedef struct s_map
+{
+	char	**grid;
+	int		width;
+	int		height;
+	int		player_x;
+	int		player_y;
 }	t_map;
 
 // structure that keeps track of 'backend' operations
-typedef struct s_calcs {
+typedef struct s_calcs
+{
 	int		score;
 	int		total_score;
-	int 	moves;
+	int		moves;
 }	t_calcs;
 
 // a strucutre that connects all previous ones
-typedef struct s_game {
-    t_window	window;
-    t_map		map;
-    t_textures	textures;
+typedef struct s_game
+{
+	t_window	window;
+	t_map		map;
+	t_textures	textures;
 	t_calcs		calcs;
 }	t_game;
 
 // structure that stores all the flood fill algorithm values
 typedef struct s_flood_fill_params
 {
-	char **map;
-	int height;
-	int width;
-	int *reachable_c;
-	int *reachable_e;
-	int c;
+	char	**map;
+	int		height;
+	int		width;
+	int		*reachable_c;
+	int		*reachable_e;
+	int		c;
 }	t_flood_fill_params;
 
 typedef struct s_map_elements

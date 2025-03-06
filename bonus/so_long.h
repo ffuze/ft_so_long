@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:07:14 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/04 13:17:19 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:11:18 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,47 +22,51 @@
 #define SPRITE_COUNT 4
 
 // manages and holds all the images used for the textures
-typedef struct s_textures {
+typedef struct s_textures
+{
 	void	*floor; // "empty space"
-    void	*wall;
-    void	*collectible;
-    void	*exit;
-    void	*player[SPRITE_COUNT];
+	void	*wall;
+	void	*collectible;
+	void	*exit;
+	void	*player[SPRITE_COUNT];
 	void	*enemy[SPRITE_COUNT];
-	int	sprite_index;
-} t_textures;
+	int		sprite_index;
+}	t_textures;
 
 // manages minilibx initialization and the window
 typedef struct s_window
 {
-	void		*mlx_ptr; // MLX pointer
-	void		*win_ptr; // MLX window pointer
+	void			*mlx_ptr; // MLX pointer
+	void			*win_ptr; // MLX window pointer
 	t_textures		*img_ptr; // Image pointer
 }	t_window;
 
 // all the info about the map, such as its width, height and the player position
-typedef struct s_map {
-    char	**grid;
-    int		width;
-    int		height;
-    int		player_x;
-    int		player_y;
+typedef struct s_map
+{
+	char	**grid;
+	int		width;
+	int		height;
+	int		player_x;
+	int		player_y;
 	int		text_x;
 	int		text_y;
 }	t_map;
 
 // structure that keeps track of 'backend' operations
-typedef struct s_calcs {
+typedef struct s_calcs
+{
 	int		score;
 	int		total_score;
-	int 	moves;
+	int		moves;
 }	t_calcs;
 
 // a strucutre that connects all previous ones
-typedef struct s_game {
-    t_window	window;
-    t_map		map;
-    t_textures	textures;
+typedef struct s_game
+{
+	t_window	window;
+	t_map		map;
+	t_textures	textures;
 	t_calcs		calcs;
 }	t_game;
 

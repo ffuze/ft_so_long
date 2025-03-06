@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:12:40 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/04 12:30:41 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:02:26 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	print_sprites(t_game *game)
 	static int	frame_counter = 0;
 
 	if (frame_counter++ % 2000 == 0)
-		game->textures.sprite_index =
-			(game->textures.sprite_index + 1) % SPRITE_COUNT;
+		game->textures.sprite_index
+			= (game->textures.sprite_index + 1) % SPRITE_COUNT;
 	find_sprites_to_animate(game);
 	return (0);
 }
