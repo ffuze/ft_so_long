@@ -6,37 +6,43 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 19:06:49 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 16:03:51 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:23:32 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	flood_fill(char **map, int x, int y, int height, int width,
-		int *reachable_c, int *reachable_e)
+static void	flood_fill(t_flood_fill_params *found_params, int x, int y)
 {
-	if (x < 0 || x >= width || y < 0 || y >= height
-		|| map[y][x] == '1' || map[y][x] == 'F')
+	if (x < 0 || x >= found_params->width || y < 0 || y >= found_params->height
+		|| found_params->map[y][x] == '1' || found_params->map[y][x] == 'F')
 		return ;
-	if (map[y][x] == 'C')
-		(*reachable_c)++;
-	else if (map[y][x] == 'E')
-		(*reachable_e)++;
-	map[y][x] = 'F';
-	flood_fill(map, x + 1, y, height, width, reachable_c, reachable_e);
-	flood_fill(map, x - 1, y, height, width, reachable_c, reachable_e);
-	flood_fill(map, x, y + 1, height, width, reachable_c, reachable_e);
-	flood_fill(map, x, y - 1, height, width, reachable_c, reachable_e);
+	if (found_params->map[y][x] == 'C')
+		(*found_params->reachable_c)++;
+	else if (found_params->map[y][x] == 'E')
+		(*found_params->reachable_e)++;
+	found_params->map[y][x] = 'F';
+	flood_fill(found_params, x + 1, y);
+	flood_fill(found_params, x - 1, y);
+	flood_fill(found_params, x, y + 1);
+	flood_fill(found_params, x, y - 1);
 }
 
-int	flood_fill_check(t_game *game, char **map_copy, int height, int width, int c)
+int	flood_fill_check(t_game *game, char **map_copy,
+	t_flood_fill_params *found_params)
 {
-	int	reachable_c;
-	int	reachable_e;
+	t_flood_fill_params	init_params;
 
-	reachable_c = 0;
-	reachable_e = 0;
-	flood_fill(map_copy, game->map.player_x, game->map.player_y,
-		height, width, &reachable_c, &reachable_e);
-	return (reachable_c == c && reachable_e == 1);
+	init_params.map = map_copy;
+	init_params.height = found_params->height;
+	init_params.width = found_params->width;
+	init_params.reachable_c = found_params->reachable_c;
+	init_params.reachable_e = found_params->reachable_e;
+	flood_fill(&init_params, game->map.player_x, game->map.player_y);
+	if (!(init_params.reachable_c == found_params->reachable_c
+			&& *found_params->reachable_e == 1))
+	{
+		return (0);
+	}
+	return (1);
 }

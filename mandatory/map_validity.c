@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:51:18 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 16:59:55 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:21:53 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,49 +56,56 @@ int	validate_elements(int p, int c, int e)
 	return (p == 1 && e == 1 && c >= 1);
 }
 
-int	is_map_valid(t_game *game, char **map, int height, int width)
+static int	check_map_integrity(char **map, int height, int width)
 {
-	int		p;
-	int		c;
-	int		e;
-	int		i;
-	char	**map_copy;
-	int		reachable_c;
-	int		reachable_e;
+	int	p;
+	int	c;
+	int	e;
+	int	n;
+	int	i;
 
 	p = 0;
 	c = 0;
 	e = 0;
+	n = 0;
 	i = -1;
-	reachable_c = 0;
-	reachable_e = 0;
+	if (!check_walls(map, height, width))
+		return (0);
 	while (++i < height)
 	{
 		if (!count_characters(map[i], &p, &c, &e))
 			return (0);
 	}
-	if (!check_walls(map, height, width) || !validate_elements(p, c, e))
-		return (0);
-	map_copy = malloc(height * sizeof(char *));
-	if (!map_copy)
-		return (0);
-	i = 0;
-	while (i < height)
-	{
-		map_copy[i] = ft_strdup(map[i]);
-		if (!map_copy[i])
-		{
-			while (--i >= 0)
-				free(map_copy[i]);
-			free(map_copy);
-			return (0);
-		}
-		i++;
-	}
-	find_player(game);
-	flood_fill(map_copy, game->map.player_y, game->map.player_x, height, width, &reachable_c, &reachable_e);
-	free_grid(map_copy, height);
-	if (reachable_c != c || reachable_e != 1)
+	if (!validate_elements(p, c, e))
 		return (0);
 	return (1);
+}
+
+int	is_map_valid(t_game *game, char **map, int height, int width)
+{
+	char				**map_copy;
+	int					reachable_c;
+	int					reachable_e;
+	t_flood_fill_params	params;
+
+	if (!check_map_integrity(map, height, width))
+		return (0);
+	map_copy = copy_map(map, height);
+	if (!map_copy)
+		return (0);
+	reachable_c = 0;
+	reachable_e = 0;
+	find_player(game);
+	params.map = map_copy;
+	params.height = height;
+	params.width = width;
+	params.reachable_c = &reachable_c;
+	params.reachable_e = &reachable_e;
+	if (!flood_fill_check(game, params.map, &params))
+	{
+		free_grid(map_copy, height);
+		return (0);
+	}
+	free_grid(map_copy, height);
+	return (reachable_c == game->calcs.total_score && reachable_e == 1);
 }
