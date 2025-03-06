@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:51:18 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/04 19:06:43 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:01:02 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	is_map_valid(t_game *game, char **map, int height, int width)
 		i++;
 	}
 	find_player(game);
-	flood_fill();
+	flood_fill(map_copy, game->map.player_y, game->map.player_x, height, width, &reachable_c, &reachable_e);
 	free_grid(map_copy, height);
 	if (reachable_c != c || reachable_e != 1)
 		return (0);

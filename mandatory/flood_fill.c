@@ -6,13 +6,13 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 19:06:49 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/04 19:06:50 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:03:51 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	flood_fill(char **map, int x, int y, int height, int width,
+void	flood_fill(char **map, int x, int y, int height, int width,
 		int *reachable_c, int *reachable_e)
 {
 	if (x < 0 || x >= width || y < 0 || y >= height

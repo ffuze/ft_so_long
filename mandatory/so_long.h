@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 15:03:59 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/04 19:07:06 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:03:46 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ void	draw_tile(t_game *game, int i, int j);
 char	**copy_map(char **map, int height);
 void	free_invalid(t_game *game);
 int		is_symmetric(char **map, int height);
-static void	flood_fill(char **map, int x, int y, int height, int width,
-	int *reachable_c, int *reachable_e);
+void	flood_fill(char **map, int x, int y, int height, int width, int *reachable_c, int *reachable_e);
 int		count_characters(char *str, int *p, int *c, int *e);
 int		count_elements(char **map, int height, t_map_elements *elements);
 void	find_player(t_game *game);
