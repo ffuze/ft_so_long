@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:20:46 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 16:36:50 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:40:39 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	is_symmetric(char **map, int height)
 	return (1);
 }
 
-int	count_characters(char *str, int *p, int *c, int *e, int *n)
+int	count_characters(char *str, t_map_characters *chars)
 {
 	int	i;
 
@@ -52,16 +52,16 @@ int	count_characters(char *str, int *p, int *c, int *e, int *n)
 		if (str[i] == '1')
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		else if (str[i] == 'P')
-			(*p)++;
+			chars->p++;
 		else if (str[i] == 'C')
-			(*c)++;
+			chars->c++;
 		else if (str[i] == 'E')
-			(*e)++;
+			chars->e++;
 		else if (str[i] == 'N')
-			(*n)++;
+			chars->n++;
 		else if (str[i] != 'C' && str[i] != 'P' && str[i] != 'E'
 			&& str[i] != 'N' && str[i] != '1' && str[i] != '0'
 			&& str[i] != '\n')

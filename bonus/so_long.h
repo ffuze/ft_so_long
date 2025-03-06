@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:07:14 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 17:11:18 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:41:32 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,24 @@ typedef struct s_game
 	t_calcs		calcs;
 }	t_game;
 
+//structure that has the needed and remaining params for the flood_fill function
+typedef struct s_flood_fill_params
+{
+	char	**map;
+	int		height;
+	int		width;
+	int		*reachable_c;
+	int		*reachable_e;
+}	t_flood_fill_params;
+
+typedef struct s_map_characters
+{
+	int	p;
+	int	c;
+	int	e;
+	int	n;
+}	t_map_characters;
+
 int		on_destroy(t_game *game);
 void	free_grid(char **grid, int height);
 void	free_all(t_game *game);
@@ -80,8 +98,9 @@ void	load_textures(t_game *game);
 int		update_and_animate(t_game *game);
 void	display_score(t_game *game);
 int		is_map_valid(t_game *game, char **map, int height, int width);
-void	flood_fill(char **map, int x, int y, int h, int w, int *rc, int *re);
+int		flood_fill_check(t_game *game, char **map_copy,
+			t_flood_fill_params *check_params);
 int		is_symmetric(char **map, int height);
 char	**copy_map(char **map, int height);
-int		count_characters(char *str, int *p, int *c, int *e, int *n);
+int		count_characters(char *str, t_map_characters *chars);
 void	free_invalid(t_game *game);

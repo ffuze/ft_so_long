@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:44:03 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 17:01:24 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 19:27:53 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	free_grid(char **grid, int height)
 	int	i;
 
 	i = 0;
+	if (!grid)
+		return ;
 	while (i < height)
 	{
 		free(grid[i]);

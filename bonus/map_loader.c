@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:10:10 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/04 13:05:57 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 19:38:18 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,20 @@ static void	allocate_map_grid(t_game *game)
 	game->map.grid = malloc((game->map.height + 1) * sizeof(char *));
 	if (!game->map.grid)
 	{
-		perror("Allocazione della griglia fallita");
+		perror("Grid allocation failed");
 		exit(EXIT_FAILURE);
 	}
 }
 
-static void	check_fd_validity(int fd)
+static void	check_fd_validity(int fd, t_game *game)
 {
 	if (fd == -1)
 	{
 		perror("File opening error");
+		if (game->map.grid)
+			free_grid(game->map.grid, game->map.height);
+		mlx_destroy_display(game->window.mlx_ptr);
+		free(game->window.mlx_ptr);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -48,12 +52,14 @@ void	load_map_dimensions(t_game *game, int fd)
 {
 	char	*line;
 
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line)
 	{
 		if (game->map.width == 0)
 			game->map.width = ft_strlen(line) - 1;
 		game->map.height++;
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 }
@@ -65,17 +71,19 @@ void	load_map(t_game *game, const char *filename)
 	int		i;
 
 	fd = open(filename, O_RDONLY);
-	check_fd_validity(fd);
+	check_fd_validity(fd, game);
 	initialize_map_values(game);
 	load_map_dimensions(game, fd);
 	allocate_map_grid(game);
 	fd = open(filename, O_RDONLY);
-	check_fd_validity(fd);
+	check_fd_validity(fd, game);
 	i = 0;
-	while ((line = get_next_line(fd)) != NULL && i < game->map.height)
+	line = get_next_line(fd);
+	while (line && i < game->map.height)
 	{
 		game->map.grid[i] = line;
 		i++;
+		line = get_next_line(fd);
 	}
 	close(fd);
 }
