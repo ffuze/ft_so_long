@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:12:26 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/03 16:43:58 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:38:32 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_exit(t_game *game)
 
 void	handle_enemy(t_game *game)
 {
-	ft_printf("DEFEAT.\n");
+	ft_printf("WASTED\n");
 	on_destroy(game);
 }
 

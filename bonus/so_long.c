@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:48:49 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/04 13:11:53 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:38:12 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int on_keypress(int keysym, t_game *game)
 {
 	if (keysym == XK_Escape)
 	{
+		ft_printf("WASTED");
 		on_destroy(game);
 		exit(0);
 	}
