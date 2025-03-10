@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_resources.c                                   :+:      :+:    :+:   */
+/*   free_resources_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:44:03 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 19:27:53 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:47:31 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
-void	free_invalid(t_game *game)
+void	free_invalid_bonus(t_game *game)
 {
 	if (game->map.grid)
-		free_grid(game->map.grid, game->map.height);
+		free_grid_bonus(game->map.grid, game->map.height);
 	if (game->window.mlx_ptr)
 	{
 		mlx_destroy_display(game->window.mlx_ptr);
@@ -26,7 +26,7 @@ void	free_invalid(t_game *game)
 	game->window.mlx_ptr = NULL;
 }
 
-void	free_grid(char **grid, int height)
+void	free_grid_bonus(char **grid, int height)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ void	free_grid(char **grid, int height)
 	free(grid);
 }
 
-void	free_textures(t_game *game)
+void	free_textures_bonus(t_game *game)
 {
 	int	i;
 
@@ -57,11 +57,11 @@ void	free_textures(t_game *game)
 	}
 }
 
-void	free_all(t_game *game)
+void	free_all_bonus(t_game *game)
 {
 	if (game->map.grid)
-		free_grid(game->map.grid, game->map.height);
-	free_textures(game);
+		free_grid_bonus(game->map.grid, game->map.height);
+	free_textures_bonus(game);
 	if (game->window.win_ptr)
 		mlx_destroy_window(game->window.mlx_ptr, game->window.win_ptr);
 	if (game->window.mlx_ptr)

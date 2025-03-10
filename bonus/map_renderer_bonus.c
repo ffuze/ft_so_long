@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_renderer.c                                     :+:      :+:    :+:   */
+/*   map_renderer_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:11:53 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/03 16:43:49 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:52:53 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	draw_tile(t_game *game, int i, int j)
 {
@@ -34,7 +34,7 @@ void	draw_tile(t_game *game, int i, int j)
 			game->window.win_ptr, texture, j * 32, i * 32);
 }
 
-void	draw_map(t_game *game)
+void	draw_map_bonus(t_game *game)
 {
 	int	i;
 	int	j;
@@ -48,7 +48,7 @@ void	draw_map(t_game *game)
 	}
 }
 
-void	print_map(t_game *game)
+void	print_map_bonus(t_game *game)
 {
 	int	i;
 	int	j;

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   animation.c                                        :+:      :+:    :+:   */
+/*   animation_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:12:40 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 17:02:26 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:49:08 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 static int	find_sprites_to_animate(t_game *game)
 {
@@ -36,7 +36,7 @@ static int	find_sprites_to_animate(t_game *game)
 	return (0);
 }
 
-int	print_sprites(t_game *game)
+static int	print_sprites(t_game *game)
 {
 	static int	frame_counter = 0;
 

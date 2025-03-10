@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_validity.c                                     :+:      :+:    :+:   */
+/*   map_validity_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 16:39:07 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 18:48:05 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:51:26 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
-void	find_player(t_game *game)
+void	find_player_bonus(t_game *game)
 {
 	int	y;
 	int	x;
@@ -34,7 +34,7 @@ void	find_player(t_game *game)
 	}
 }
 
-int	validate_elements(t_map_characters *characters)
+int	validate_elements_bonus(t_map_characters *characters)
 {
 	if (characters->p == 1 && characters->e == 1 && characters->c >= 1
 		&& characters->n >= 1)
@@ -44,11 +44,11 @@ int	validate_elements(t_map_characters *characters)
 	return (0);
 }
 
-int	check_walls(char **map, int height, int width)
+int	check_walls_bonus(char **map, int height, int width)
 {
 	int	i;
 
-	if (!is_symmetric(map, height))
+	if (!is_symmetric_bonus(map, height))
 		return (0);
 	i = -1;
 	while (++i < width)
@@ -61,7 +61,7 @@ int	check_walls(char **map, int height, int width)
 	return (1);
 }
 
-static int	check_map_integrity(char **map, int height, int width)
+static int	check_map_integrity_bonus(char **map, int height, int width)
 {
 	t_map_characters	characters;
 	int					i;
@@ -71,14 +71,14 @@ static int	check_map_integrity(char **map, int height, int width)
 	characters.e = 0;
 	characters.n = 0;
 	i = -1;
-	if (!check_walls(map, height, width))
+	if (!check_walls_bonus(map, height, width))
 		return (0);
 	while (++i < height)
 	{
-		if (!count_characters(map[i], &characters))
+		if (!count_characters_bonus(map[i], &characters))
 			return (0);
 	}
-	if (!validate_elements(&characters))
+	if (!validate_elements_bonus(&characters))
 		return (0);
 	return (1);
 }
@@ -90,14 +90,14 @@ int	is_map_valid(t_game *game, char **map, int height, int width)
 	int					reachable_e;
 	t_flood_fill_params	params;
 
-	if (!check_map_integrity(map, height, width))
+	if (!check_map_integrity_bonus(map, height, width))
 		return (0);
-	map_copy = copy_map(map, height);
+	map_copy = copy_map_bonus(map, height);
 	if (!map_copy)
 		return (0);
 	reachable_c = 0;
 	reachable_e = 0;
-	find_player(game);
+	find_player_bonus(game);
 	params.map = map_copy;
 	params.height = height;
 	params.width = width;
@@ -105,9 +105,9 @@ int	is_map_valid(t_game *game, char **map, int height, int width)
 	params.reachable_e = &reachable_e;
 	if (!flood_fill_check(game, params.map, &params))
 	{
-		free_grid(map_copy, height);
+		free_grid_bonus(map_copy, height);
 		return (0);
 	}
-	free_grid(map_copy, height);
+	free_grid_bonus(map_copy, height);
 	return (reachable_c == game->calcs.total_score && reachable_e == 1);
 }

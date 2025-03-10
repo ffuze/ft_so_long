@@ -8,9 +8,9 @@ SRCPATH = mandatory/
 BSRCPATH = bonus/
 SRC = $(SRCPATH)so_long.c $(SRCPATH)free_resources.c $(SRCPATH)map_validity.c $(SRCPATH)textures.c \
 		$(SRCPATH)map_loader.c $(SRCPATH)map_renderer.c $(SRCPATH)map_validity_utils.c $(SRCPATH)flood_fill.c 
-BSRC = $(BSRCPATH)so_long.c $(BSRCPATH)free_resources.c $(BSRCPATH)map_validity.c $(BSRCPATH)animation.c \
-		$(BSRCPATH)flood_fill.c $(BSRCPATH)map_loader.c $(BSRCPATH)map_renderer.c $(BSRCPATH)map_validity_utils.c \
-		$(BSRCPATH)player_movement.c $(BSRCPATH)textures.c
+BSRC = $(BSRCPATH)so_long_bonus.c $(BSRCPATH)free_resources_bonus.c $(BSRCPATH)map_validity_bonus.c $(BSRCPATH)animation_bonus.c \
+		$(BSRCPATH)flood_fill_bonus.c $(BSRCPATH)map_loader_bonus.c $(BSRCPATH)map_renderer_bonus.c $(BSRCPATH)map_validity_utils_bonus.c \
+		$(BSRCPATH)player_movement_bonus.c $(BSRCPATH)textures_bonus.c
 OBJ = $(SRC:.c=.o)
 BOBJ = $(BSRC:.c=.o)
 INCLUDES = -I$(MLX_DIR)

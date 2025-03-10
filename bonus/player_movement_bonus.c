@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player_movement.c                                  :+:      :+:    :+:   */
+/*   player_movement_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:12:26 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 16:38:32 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:53:37 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
-void	handle_collectible(t_game *game, int new_x, int new_y)
+static void	handle_collectible(t_game *game, int new_x, int new_y)
 {
 	game->calcs.score++;
 	game->map.grid[new_y][new_x] = '0';
 }
 
-void	handle_exit(t_game *game)
+static void	handle_exit(t_game *game)
 {
 	if (game->calcs.score == game->calcs.total_score)
 	{
@@ -27,13 +27,13 @@ void	handle_exit(t_game *game)
 	}
 }
 
-void	handle_enemy(t_game *game)
+static void	handle_enemy(t_game *game)
 {
 	ft_printf("WASTED\n");
 	on_destroy(game);
 }
 
-int	move_player(t_game *game, int new_x, int new_y)
+int	move_player_bonus(t_game *game, int new_x, int new_y)
 {
 	if (new_y < 0 || new_y >= game->map.height
 		|| new_x < 0 || new_x >= game->map.width)
@@ -51,7 +51,7 @@ int	move_player(t_game *game, int new_x, int new_y)
 	game->map.player_x = new_x;
 	game->map.grid[new_y][new_x] = 'P';
 	game->calcs.moves++;
-	draw_map(game);
+	draw_map_bonus(game);
 	display_score(game);
 	return (1);
 }

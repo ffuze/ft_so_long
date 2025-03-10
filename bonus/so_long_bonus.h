@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   so_long_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:07:14 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 18:41:32 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:46:11 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,18 @@ typedef struct s_map_characters
 }	t_map_characters;
 
 int		on_destroy(t_game *game);
-void	free_grid(char **grid, int height);
-void	free_all(t_game *game);
-int		move_player(t_game *game, int new_x, int new_y);
-void	draw_map(t_game *game);
-void	load_map(t_game *game, const char *filename);
+void	free_grid_bonus(char **grid, int height);
+void	free_all_bonus(t_game *game);
+int		move_player_bonus(t_game *game, int new_x, int new_y);
+void	draw_map_bonus(t_game *game);
+void	load_map_bonus(t_game *game, const char *filename);
 void	load_textures(t_game *game);
 int		update_and_animate(t_game *game);
 void	display_score(t_game *game);
 int		is_map_valid(t_game *game, char **map, int height, int width);
 int		flood_fill_check(t_game *game, char **map_copy,
 			t_flood_fill_params *check_params);
-int		is_symmetric(char **map, int height);
-char	**copy_map(char **map, int height);
-int		count_characters(char *str, t_map_characters *chars);
-void	free_invalid(t_game *game);
+int		is_symmetric_bonus(char **map, int height);
+char	**copy_map_bonus(char **map, int height);
+int		count_characters_bonus(char *str, t_map_characters *chars);
+void	free_invalid_bonus(t_game *game);

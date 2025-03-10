@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_loader.c                                       :+:      :+:    :+:   */
+/*   map_loader_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:10:10 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 19:38:18 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:50:26 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
-static void	allocate_map_grid(t_game *game)
+static void	allocate_map_grid_bonus(t_game *game)
 {
 	game->map.grid = malloc((game->map.height + 1) * sizeof(char *));
 	if (!game->map.grid)
@@ -22,20 +22,20 @@ static void	allocate_map_grid(t_game *game)
 	}
 }
 
-static void	check_fd_validity(int fd, t_game *game)
+static void	check_fd_validity_bonus(int fd, t_game *game)
 {
 	if (fd == -1)
 	{
 		perror("File opening error");
 		if (game->map.grid)
-			free_grid(game->map.grid, game->map.height);
+			free_grid_bonus(game->map.grid, game->map.height);
 		mlx_destroy_display(game->window.mlx_ptr);
 		free(game->window.mlx_ptr);
 		exit(EXIT_FAILURE);
 	}
 }
 
-void	initialize_map_values(t_game *game)
+void	initialize_map_values_bonus(t_game *game)
 {
 	game->calcs.total_score = 0;
 	game->calcs.moves = 0;
@@ -48,7 +48,7 @@ void	initialize_map_values(t_game *game)
 	game->map.text_y = 22;
 }
 
-void	load_map_dimensions(t_game *game, int fd)
+void	load_map_dimensions_bonus(t_game *game, int fd)
 {
 	char	*line;
 
@@ -64,19 +64,19 @@ void	load_map_dimensions(t_game *game, int fd)
 	close(fd);
 }
 
-void	load_map(t_game *game, const char *filename)
+void	load_map_bonus(t_game *game, const char *filename)
 {
 	int		fd;
 	char	*line;
 	int		i;
 
 	fd = open(filename, O_RDONLY);
-	check_fd_validity(fd, game);
-	initialize_map_values(game);
-	load_map_dimensions(game, fd);
-	allocate_map_grid(game);
+	check_fd_validity_bonus(fd, game);
+	initialize_map_values_bonus(game);
+	load_map_dimensions_bonus(game, fd);
+	allocate_map_grid_bonus(game);
 	fd = open(filename, O_RDONLY);
-	check_fd_validity(fd, game);
+	check_fd_validity_bonus(fd, game);
 	i = 0;
 	line = get_next_line(fd);
 	while (line && i < game->map.height)

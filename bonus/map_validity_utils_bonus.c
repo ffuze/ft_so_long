@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_validity_utils.c                               :+:      :+:    :+:   */
+/*   map_validity_utils_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:20:46 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 18:40:39 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:51:40 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
-int	ft_strlen_no_newline(char *str)
+static int	ft_strlen_no_newline(char *str)
 {
 	int	len;
 
@@ -22,7 +22,7 @@ int	ft_strlen_no_newline(char *str)
 	return (len);
 }
 
-int	is_symmetric(char **map, int height)
+int	is_symmetric_bonus(char **map, int height)
 {
 	int	i;
 	int	width;
@@ -42,7 +42,7 @@ int	is_symmetric(char **map, int height)
 	return (1);
 }
 
-int	count_characters(char *str, t_map_characters *chars)
+int	count_characters_bonus(char *str, t_map_characters *chars)
 {
 	int	i;
 
@@ -71,7 +71,7 @@ int	count_characters(char *str, t_map_characters *chars)
 	return (1);
 }
 
-char	**copy_map(char **map, int height)
+char	**copy_map_bonus(char **map, int height)
 {
 	int		i;
 	char	**map_copy;
@@ -85,7 +85,7 @@ char	**copy_map(char **map, int height)
 		map_copy[i] = ft_strdup(map[i]);
 		if (!map_copy[i])
 		{
-			free_grid(map_copy, i);
+			free_grid_bonus(map_copy, i);
 			return (NULL);
 		}
 		i++;
