@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:48:49 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/10 15:47:04 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:09:16 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (0);
+	game = (t_game){0};
 	game.window.mlx_ptr = mlx_init();
 	if (!game.window.mlx_ptr)
 		return (0);

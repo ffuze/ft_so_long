@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:10:10 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/10 15:50:26 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:26:48 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,18 @@ static void	check_fd_validity_bonus(int fd, t_game *game)
 		free(game->window.mlx_ptr);
 		exit(EXIT_FAILURE);
 	}
+	else if (fd != -1)
+	{
+		perror("Error: input might be a directory");
+		close(fd);
+		free_invalid_bonus(game);
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	initialize_map_values_bonus(t_game *game)
 {
+	game->map.grid = NULL;
 	game->calcs.total_score = 0;
 	game->calcs.moves = 0;
 	game->calcs.score = 0;
@@ -70,7 +78,7 @@ void	load_map_bonus(t_game *game, const char *filename)
 	char	*line;
 	int		i;
 
-	fd = open(filename, O_RDONLY);
+	fd = open(filename, O_RDONLY | __O_DIRECTORY);
 	check_fd_validity_bonus(fd, game);
 	initialize_map_values_bonus(game);
 	load_map_dimensions_bonus(game, fd);

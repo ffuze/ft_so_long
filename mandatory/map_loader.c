@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 14:53:07 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/04 16:36:10 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:48:17 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,29 @@ void	allocate_map_grid(t_game *game)
 	}
 }
 
-void	check_fd_validity(int fd)
+void	check_fd_validity(int fd, t_game *game)
 {
 	if (fd == -1)
 	{
 		perror("Errore nell'apertura del file\n");
-		return ;
+		if (game->map.grid)
+			free_grid(game->map.grid, game->map.height);
+		mlx_destroy_display(game->window.mlx_ptr);
+		free(game->window.mlx_ptr);
+		exit(EXIT_FAILURE);
+	}
+	else if (fd != -1)
+	{
+		perror("Error: input might be a directory");
+		close(fd);
+		free_invalid(game);
+		exit(EXIT_FAILURE);
 	}
 }
 
 void	initialize_map_values(t_game *game)
 {
+	game->map.grid = NULL;
 	game->calcs.total_score = 0;
 	game->calcs.moves = 0;
 	game->calcs.score = 0;
@@ -66,12 +78,12 @@ void	load_map(t_game *game, const char *filename)
 
 	i = 0;
 	fd = open(filename, O_RDONLY);
-	check_fd_validity(fd);
+	check_fd_validity(fd, game);
 	initialize_map_values(game);
 	load_map_dimensions(game, fd);
 	close(fd);
 	fd = open(filename, O_RDONLY);
-	check_fd_validity(fd);
+	check_fd_validity(fd, game);
 	allocate_map_grid(game);
 	while (i < game->map.height)
 	{

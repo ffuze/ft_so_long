@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:48:49 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 16:53:05 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:04:13 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,21 @@ int	on_keypress(int keysym, t_game *game)
 	return (0);
 }
 
+static void	call_hooks(t_game game)
+{
+	mlx_hook(game.window.win_ptr, 2, 1L << 0, &on_keypress, &game);
+	mlx_hook(game.window.win_ptr, DestroyNotify,
+		StructureNotifyMask, &on_destroy, &game);
+	mlx_loop(game.window.mlx_ptr);
+}
+
 int	main(int argc, char **argv)
 {
 	t_game	game;
 
 	if (argc != 2)
 		return (0);
+	game = (t_game){0};
 	game.window.mlx_ptr = mlx_init();
 	if (!game.window.mlx_ptr)
 		return (0);
@@ -59,10 +68,7 @@ int	main(int argc, char **argv)
 	if (!game.window.win_ptr)
 		return (0);
 	draw_map(&game);
-	mlx_hook(game.window.win_ptr, 2, 1L << 0, &on_keypress, &game);
-	mlx_hook(game.window.win_ptr, DestroyNotify,
-		StructureNotifyMask, &on_destroy, &game);
-	mlx_loop(game.window.mlx_ptr);
+	call_hooks(game);
 	free_all(&game);
 	return (1);
 }
