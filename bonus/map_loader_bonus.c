@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:10:10 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/10 19:26:48 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/13 18:57:01 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@ static void	allocate_map_grid_bonus(t_game *game)
 	}
 }
 
-static void	check_fd_validity_bonus(int fd, t_game *game)
+static void	check_fd_validity_bonus(int fd, t_game *game, const char *filename)
 {
+	int	dir_fd;
+
+	dir_fd = open(filename, __O_DIRECTORY);
 	if (fd == -1)
 	{
 		perror("File opening error");
@@ -33,9 +36,10 @@ static void	check_fd_validity_bonus(int fd, t_game *game)
 		free(game->window.mlx_ptr);
 		exit(EXIT_FAILURE);
 	}
-	else if (fd != -1)
+	if (dir_fd != -1)
 	{
 		perror("Error: input might be a directory");
+		close(dir_fd);
 		close(fd);
 		free_invalid_bonus(game);
 		exit(EXIT_FAILURE);
@@ -77,20 +81,23 @@ void	load_map_bonus(t_game *game, const char *filename)
 	int		fd;
 	char	*line;
 	int		i;
+	size_t	len;
 
-	fd = open(filename, O_RDONLY | __O_DIRECTORY);
-	check_fd_validity_bonus(fd, game);
+	i = -1;
 	initialize_map_values_bonus(game);
+	len = ft_strlen(filename);
+	if (len < 4 || ft_strncmp(&filename[len - 4], ".ber", 4) != 0)
+		return (free_invalid_bonus(game));
+	fd = open(filename, O_RDONLY);
+	check_fd_validity_bonus(fd, game, filename);
 	load_map_dimensions_bonus(game, fd);
 	allocate_map_grid_bonus(game);
 	fd = open(filename, O_RDONLY);
-	check_fd_validity_bonus(fd, game);
-	i = 0;
+	check_fd_validity_bonus(fd, game, filename);
 	line = get_next_line(fd);
-	while (line && i < game->map.height)
+	while (++i < game->map.height && line)
 	{
 		game->map.grid[i] = line;
-		i++;
 		line = get_next_line(fd);
 	}
 	close(fd);
