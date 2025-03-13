@@ -14,28 +14,35 @@ BSRC = $(BSRCPATH)so_long_bonus.c $(BSRCPATH)free_resources_bonus.c $(BSRCPATH)m
 OBJ = $(SRC:.c=.o)
 BOBJ = $(BSRC:.c=.o)
 INCLUDES = -I$(MLX_DIR)
-LIBS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm ./Libft/libft.a
+LIBFT_DIR = ./Libft
+LIBFT = $(LIBFT_DIR)/libft.a
+LIBS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm $(LIBFT)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR) all
+
+$(NAME): $(LIBFT) $(OBJ)
 	$(MAKE) -C $(MLX_DIR)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(LIBFT) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJ) $(BOBJ)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME) $(BNAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-bonus: $(BOBJ)
+bonus: $(LIBFT) $(BOBJ)
 	$(MAKE) -C $(MLX_DIR)
-	$(CC) $(CFLAGS) $(BOBJ) $(LIBS) -o $(NAME)_bonus
+	$(CC) $(CFLAGS) $(BOBJ) $(LIBS) $(LIBFT) -o $(BNAME)
 	rm -f $(BOBJ)
 
 .PHONY: all clean fclean re bonus
