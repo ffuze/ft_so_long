@@ -6,7 +6,7 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 15:03:59 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/06 18:19:40 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:28:44 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct s_calcs
 	int		score;
 	int		total_score;
 	int		moves;
+	int		exit_x;
+	int		exit_y;
 }	t_calcs;
 
 // a strucutre that connects all previous ones
