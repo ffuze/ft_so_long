@@ -6,12 +6,12 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 15:03:59 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/27 14:28:44 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/28 11:29:50 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilibx-linux/mlx.h"
-#include "../Libft/libft.h"
+#include "../libft/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>

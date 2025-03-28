@@ -6,12 +6,12 @@
 /*   By: adegl-in <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:07:14 by adegl-in          #+#    #+#             */
-/*   Updated: 2025/03/10 15:46:11 by adegl-in         ###   ########.fr       */
+/*   Updated: 2025/03/28 11:29:58 by adegl-in         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minilibx-linux/mlx.h"
-#include "../Libft/libft.h"
+#include "../libft/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -59,6 +59,8 @@ typedef struct s_calcs
 	int		score;
 	int		total_score;
 	int		moves;
+	int		exit_x;
+	int		exit_y;
 }	t_calcs;
 
 // a strucutre that connects all previous ones
